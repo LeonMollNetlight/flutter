@@ -65,6 +65,7 @@ class CanvasKitRenderer extends Renderer {
       _pictureToImageSurface = rasterizer.createPictureToImageSurface() as CkSurface;
       _instance = this;
       await super.initialize();
+      registerHotRestartListener(dispose);
     }();
     return _initialized;
   }
