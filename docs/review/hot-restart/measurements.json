@@ -1,0 +1,139 @@
+{
+  "measured_on": "2026-11-09",
+  "device": "Samsung SM-S931B / Android 16 / Chrome 156",
+  "memory_axis_mib": [
+    0,
+    350
+  ],
+  "desktop_before_mib": [
+    [
+      0,
+      167.77986526489258
+    ],
+    [
+      1,
+      185.92808532714844
+    ],
+    [
+      2,
+      203.67023086547852
+    ],
+    [
+      3,
+      221.2445945739746
+    ],
+    [
+      4,
+      239.2608642578125
+    ],
+    [
+      5,
+      256.95016860961914
+    ]
+  ],
+  "desktop_combined_fixes_mib": [
+    [
+      0,
+      148.98981857299805
+    ],
+    [
+      1,
+      149.3801155090332
+    ],
+    [
+      2,
+      150.34046936035156
+    ],
+    [
+      3,
+      150.6385154724121
+    ],
+    [
+      4,
+      150.64300155639648
+    ],
+    [
+      5,
+      150.78047943115234
+    ]
+  ],
+  "samsung_followup_mib": [
+    [
+      0,
+      272.8129997253418
+    ],
+    [
+      1,
+      271.74460220336914
+    ],
+    [
+      2,
+      271.8388023376465
+    ],
+    [
+      3,
+      271.91784286499023
+    ],
+    [
+      4,
+      272.0824546813965
+    ],
+    [
+      5,
+      272.14939880371094
+    ],
+    [
+      6,
+      272.13935470581055
+    ],
+    [
+      7,
+      272.2115058898926
+    ],
+    [
+      8,
+      272.1883735656738
+    ],
+    [
+      9,
+      273.55187606811523
+    ],
+    [
+      10,
+      273.57919692993164
+    ]
+  ],
+  "samsung_before_gpu_cadence": [
+    60,
+    58,
+    59,
+    60,
+    17,
+    11,
+    8,
+    7
+  ],
+  "samsung_gpu_fix_cadence": [
+    59,
+    56,
+    58,
+    58,
+    59,
+    60,
+    59,
+    59,
+    58,
+    59,
+    59,
+    59,
+    60,
+    59
+  ],
+  "caveats": [
+    "Memory points are page JS heap after explicit diagnostic GC; worker heap excluded.",
+    "The Samsung follow-up follows an initial final-patch run that failed its growth threshold.",
+    "The initial final-patch run grew from 237.3 to 277.5 MiB after GC over 15 restarts.",
+    "Combined retention results require the Flutter listener and Dart/DDC fixes.",
+    "Frame cadence is measured with requestAnimationFrame, not compositor presentation."
+  ]
+}
