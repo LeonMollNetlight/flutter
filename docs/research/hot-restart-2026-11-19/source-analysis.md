@@ -1,13 +1,14 @@
 # Hot-restart cleanup: upstream source analysis
 
-**Subsequent desktop validation:** the source-based statement that changes can
-be consumed independently is insufficient. Fresh measurements reproduce old
-CanvasKit callbacks throwing after DDC native-extension removal unless the
-CanvasKit cleanup is included. A compiled plain-Dart DOM callback also changes
-from running stale code to throwing a TypeError. See [README.md](README.md),
-[stale-callback-results.json](stale-callback-results.json), and the `errors`
-records in [flutter-results.json](flutter-results.json). This appendix records
-the earlier source assessment; the desktop report gives the measured verdict.
+**Subsequent desktop validation and reference audit:** both Flutter PRs work
+independently, with the original DDC runtime/loader. CanvasKit cleanup alone
+prevents context accumulation and cadence collapse; listener cleanup alone
+removes every retired dispatcher's document click registration. Complete
+collection after GC requires removing other retention roots as well. That
+measurement condition is not a code or landing dependency. The experimental
+Dart implementation introduces stale-callback TypeErrors, including in plain
+Dart. See [reference-audit.md](reference-audit.md), [EVIDENCE.md](EVIDENCE.md),
+and [stale-callback-results.json](stale-callback-results.json).
 
 Research date: **2026-11-19**. Upstream state is a snapshot from this research session; the detailed Dart status was read at **12:08 UTC**. This report is source inspection and review of existing measurement records; it contains **no new builds, runtime reproductions, benchmarks, SDK changes, or deployments**. The parent task's desktop reproductions are independent and are not assumed to have passed. DartPad conclusions below concern **DartPad Preview's in-browser DDC sandboxes**; they do not establish the artifact versions or execution strategy of a separate legacy hosted DartPad deployment.
 
@@ -90,14 +91,14 @@ The frontend's checked-in SDK catalog currently identifies Flutter `3.50.0-0.4.p
 | Dependency | Evidence and implication |
 | --- | --- |
 | **Hard pairing: patched DDC loader + patched compiled DDC SDK** | The loader unconditionally invokes the new runtime entrypoint. Shipping the new loader with an old `dart_sdk.js` leaves that entrypoint absent; shipping only runtime code with the old loader does not invoke the cleanup. The Gerrit commit explicitly requires the loader/runtime SDK to ship together. Replacing runtime Dart source alone does not update already compiled JS artifacts. [D1] [D-loader] [D-runtime] |
-| **Two independent application-retention paths: PR 196787 + CL 578301** | Either change can land first. For the two demonstrated DartPad retention roots, both must be consumed; removing one root does not make an object collectible while the other still reaches it. This is a combined remediation requirement, not a Git ancestry requirement. [F2] [D1] [L-native-retainers] [L-listener-retainers] |
+| **Independent cleanup paths** | PR 196787 removes its document listener without either other patch; PR 196786 releases its graphics resources without either other patch. Other roots can prevent GC after either cleanup. Complete collection in the desktop fixture required all three experimental cleanups; the DDC implementation remains unsafe because it introduces a callback regression. See [reference-audit.md](reference-audit.md). [F2] [D1] [L-native-retainers] [L-listener-retainers] |
 | **CanvasKit resource cleanup is additional** | PR 196786 handles graphics resources/context-cache entries separately from JS application reachability. It is needed for the demonstrated graphics/context problem, not a prerequisite for the Dart CL to compile. [F1] [D-files] [L-gpu] |
 | **Existing resize cleanup from Flutter PR 192769** | PR 196786 refactors the offscreen replacement cleanup already present in its base. PR 192769 is merged (2026-11-09; merge commit `f0add0e1fe9d8229638cbbc92d005c2959d6f19a`), so it is existing source context, not another pending hot-restart fix. A port onto older engine source must account for the different surface implementation. [F-resize-status] [F1-surface] [F-base-surface] |
-| **Flutter engine changes must reach the selected compiled web engine** | DartPad setup compiles `flutter_web.js` and its web SDK from selected sources/artifacts. Existing cached Flutter web artifacts will not acquire a Dart-source change automatically. The CanvasKit patch also requires the consumed CanvasKit JS API to export `deleteContext`; current-artifact validation is explicitly pending in its PR. [DP-setup] [F1-code] [F1] |
+| **Flutter engine changes must reach the selected compiled web engine** | DartPad setup compiles `flutter_web.js` and its web SDK from selected sources/artifacts. Existing cached Flutter web artifacts will not acquire a Dart-source change automatically. The CanvasKit patch also requires the consumed CanvasKit JS API to export `deleteContext`; the subsequent desktop validation confirmed that API with current CanvasKit prebuilts; upstream presubmits remain separate. [DP-setup] [F1-code] [F1] |
 | **Engine disassembly must precede restart** | Flutter/DWDS and inspected DartPad already expose/call `ext.flutter.disassemble`. A custom embedder that skips it will not run the Flutter renderer/dispatcher hot-restart listeners merely by resetting DDC. [F-init] [DWDS] [DP-flutter] |
 | **Weak-reference support** | The proposed runtime uses JavaScript `WeakMap` and `WeakRef`. Compatibility must be judged against the browsers supported by the selected development runtime. No browser-compatibility testing was performed in this research task. [D-runtime] |
 
-### Observed upstream state
+### Earlier observed upstream state (historical snapshot)
 
 | Change | Immutable source revision | Observed state / outstanding work |
 | --- | --- | --- |

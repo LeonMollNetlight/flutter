@@ -1,11 +1,11 @@
 # Desktop reproduction: hot restart outside DartPad
 
-**Experimental DDC results:** curves previously called “DDC fix” or “All three
-fixes” use the tested CL 578301/3 implementation. It has a reproduced stale-
-callback regression and is **not merge-ready**. These curves document a
-diagnostic experiment, not an available or recommended fix. The tested source
-is preserved in [DDC-EXPERIMENT.md](DDC-EXPERIMENT.md) and
-[ddc-experiment.patch](ddc-experiment.patch). The measured data remain unchanged.
+The two Flutter changes fix separate engine cleanup defects and are confirmed
+individually: [PR 196786](https://github.com/flutter/flutter/pull/196786)
+releases graphics contexts; [PR 196787](https://github.com/flutter/flutter/pull/196787)
+removes the document click listener. Neither requires the other or a Dart SDK
+patch. The runtime-retention experiment is separate and uses an unsafe,
+experimental DDC implementation. [Dependency and reference audit](reference-audit.md).
 
 19 November 2026. These runs use ordinary Flutter web and a compiled plain-Dart
 web application. DartPad is absent from both reproductions.
@@ -30,30 +30,50 @@ Eight combinations, three fresh-page runs each, 384 samples in total.
 | Experimental DDC | 59.88* | 15 | 15 / 15 | 49.78 MiB |
 | CanvasKit + experimental DDC | 59.75 | 2 | 15 / 15 | 49.80 MiB |
 | Listener + experimental DDC | 59.56* | 15 | 15 / 15 | 49.68 MiB |
-| Both Flutter PRs + experimental DDC | 59.86 | 2 | 0 / 0 | 0.13 MiB |
+| CanvasKit + click listener + experimental DDC | 59.86 | 2 | 0 / 0 | 0.13 MiB |
 
 Values are medians. *DDC without CanvasKit cleanup raises 16–17 unhandled
 errors per run in stale context-loss callbacks. Those cadence results do
 not demonstrate a correct fix.*
 
-The context-cleanup graphs compare the unmodified baseline with WebGL context
-cleanup alone. The dispatcher/heap graphs isolate the document click listener:
-WebGL context cleanup and the experimental DDC native-metadata cleanup are held
-constant in both conditions. The two Flutter issues track separate cleanup
-defects; the latter experiment removes other retention roots so dispatcher
-collection can be observed.
+### CanvasKit cleanup alone
+
+The context graphs compare the original engine with PR 196786 alone. The
+original dispatcher and DDC runtime/loader are used in both conditions.
 
 ![Main-thread cadence: context cleanup only](flutter-cadence.png)
 
-![Heap with graphics cleanup held constant](flutter-memory.png)
-
 ![Active and cumulatively created WebGL contexts](flutter-contexts.png)
 
-![Retired dispatchers with the document click listener retained or removed](flutter-retention.png)
+### Document click-listener cleanup alone
 
-The previous dispatcher/renderer panels had identical counts in this fixture.
-The listener graph now shows only the dispatcher count relevant to that issue.
-The original renderer counts and all eight combinations remain in the raw data.
+The listener graph compares the original engine with PR 196787 alone. After
+15 restarts the baseline has 16 registrations and no removals; the patched
+engine has 16 registrations and 15 removals. Registrations minus removals
+therefore grow from 1 to 16 before the fix, and stay at 1 with it. The
+[probe](probe.js) counts capturing document click add/remove calls in this
+fixture; the separate engine regression checks callback identity and capture
+flags. CanvasKit and the DDC runtime/loader are unchanged.
+
+![Document click registrations with the listener fix alone](flutter-listeners.png)
+
+### Additional experiment: dispatcher collection
+
+Removing the document listener does not remove other references to a retired
+dispatcher. To observe collection after GC, this additional comparison holds
+CanvasKit cleanup and experimental DDC native-metadata cleanup constant, then
+changes only the click-listener cleanup. All 15 old dispatchers survive in
+`context-ddc`; none survive in `all`. This is a condition for the collection
+measurement, not a dependency for reviewing or landing either Flutter PR.
+
+![Dispatcher collection with other cleanup paths held constant](flutter-retention.png)
+
+![Heap with context and experimental DDC cleanup held constant](flutter-memory.png)
+
+The renderer survivor counts match the dispatcher counts in this fixture.
+Those counts and all eight combinations remain in the raw data. The DDC patch
+used in this additional experiment has a known stale-callback regression;
+[the tested source and status](DDC-EXPERIMENT.md) are archived with the data.
 
 The baseline creates a median 3,344 contexts cumulatively; CanvasKit cleanup
 reduces that to 49, including initial capability probes and new generations.
@@ -63,7 +83,8 @@ Cumulative creation is distinct from simultaneous active-context counts.
 
 The [fixture](plain_main.dart) is compiled with DDC canary/library bundles and
 uses neither Flutter nor DartPad. After 15 restarts, native `Function` symbols
-grow from 6 to 96 without cleanup, and stay at 6 with cleanup. Median post-GC
+grow from 6 to 96 with the original runtime, and stay at 6 with experimental
+CL 578301/3. Median post-GC
 heap is 97.25 versus 30.57 MiB; growth over restarts 10–15 is 24.21 versus
 0.001 MiB. Three before/after pairs produce 96 samples.
 
@@ -92,8 +113,10 @@ This overlaps the callback policy in [SDK issue 56127](https://github.com/dart-l
 
 In Flutter the corresponding error is
 `_engine.webGLVersion[$toDouble] is not a function` from retired CanvasKit
-callbacks. PR 196786 removes those listeners. The all-three Flutter runs are
+callbacks. PR 196786 removes those listeners. The combined Flutter runs are
 error-free, but do not resolve the general plain-Dart callback contract.
+This integration observation concerns the experimental DDC implementation;
+the two Flutter PRs fix their own cleanup defects independently.
 If this approach is shipped, the patched loader and rebuilt DDC runtime must
 be delivered together. CL 578301 should not be
 presented as independently safe based on these measurements.
@@ -111,7 +134,7 @@ and [engine-suite-summary.json](engine-suite-summary.json).
 
 rAF measures main-thread scheduling, not compositor presentation FPS. Heap
 samples follow forced GC and exclude workers, total-process PSS and GPU memory.
-Even with all fixes, heap grows 24.03 MiB from restart 2 to 15, with a step near
+Even in the combined cleanup experiment, heap grows 24.03 MiB from restart 2 to 15, with a step near
 restart 8 and a later plateau; that step's cause was not profiled.
 
 Baseline runs were first, other variants in forward/reverse/forward order;
@@ -136,4 +159,4 @@ Scripts run from a checkout root with this directory at
 `docs/research/hot-restart-2026-11-19`. Build inputs and the dedicated Chrome
 profile/port are described in the German report. Local input paths must be
 adapted to matching checkouts; this bundle does not contain SDK binaries.
-All five graphs are also available as SVG alongside their PNG versions.
+All six graphs are also available as SVG alongside their PNG versions.

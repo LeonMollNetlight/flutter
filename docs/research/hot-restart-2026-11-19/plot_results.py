@@ -135,6 +135,13 @@ def main():
           'Normal Flutter web: retained contexts trigger repeated context creation', 'flutter-contexts',
           ['Active tracked WebGL contexts', 'Cumulative WebGL contexts created'],
           legend_labels=context_labels)
+    registration_rows = [dict(row, clickOutstanding=row['clickAdded'] - row['clickRemoved'])
+                         for row in flutter]
+    chart(registration_rows, ['clickOutstanding'], ['baseline', 'listener'],
+          'Flutter web: hot restart accumulates document click listeners', 'flutter-listeners',
+          ['Document click registrations (added − removed)'],
+          legend_labels={'baseline': 'Before listener cleanup',
+                         'listener': 'With listener cleanup alone'})
     chart(flutter, ['usedSize'], ['context-ddc', 'all'],
           'Flutter web: heap retention with the document click listener removed', 'flutter-memory',
           ['Post-GC JavaScript heap growth after restart 2 (MiB)'], subtract=True,
@@ -144,8 +151,11 @@ def main():
           ['Retired dispatchers still reachable after GC'], legend_labels=listener_labels,
           held_constant=constant)
     pictures = [('flutter-cadence', 'Normal Flutter web: Taktung'),
+                ('flutter-listeners', 'Document-Click-Listener: Fix allein'),
                 ('flutter-memory', 'Normal Flutter web: JavaScript-Heap'),
-                ('flutter-contexts', 'WebGL-Kontexte'), ('plain-dart', 'Reines Dart-Web mit DDC')]
+                ('flutter-contexts', 'WebGL-Kontexte'),
+                ('flutter-retention', 'Zusätzliches GC-Experiment'),
+                ('plain-dart', 'Reines Dart-Web mit DDC')]
     sections = ''.join(f'<section><h3>{title}</h3><img src="{ROOT}/{name}.png" alt="{title}"></section>' for name, title in pictures)
     html = f'''<!doctype html><meta charset="utf-8"><style>
     :root {{font-family:var(--font-sans);color:var(--foreground)}}

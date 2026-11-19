@@ -1,23 +1,21 @@
 # Hot-Restart-Fixes außerhalb von DartPad: Desktop-Ergebnis
 
-**Status der DDC-Kurven:** Die Messungen mit dem Dart-Patch sind experimentelle
-Ergebnisse, kein verfügbarer oder merge-fertiger Fix. Der getestete Stand hat
-eine bekannte Callback-Regression. Die Graphen kennzeichnen ihn entsprechend;
-sein Quellpatch bleibt [archiviert](DDC-EXPERIMENT.md). Ein wiederhergestellter
-Gerrit-WIP-Change wäre eine Diskussionsgrundlage, keine Merge-Empfehlung.
+Stand: 19.11.2026. Beide Flutter-Fixes sind unabhängig voneinander und vom
+Dart-Patch bestätigt. CanvasKit PR 196786 beseitigt allein den Kontextaufbau
+und den Einbruch der rAF-Taktung. Dispatcher PR 196787 entfernt allein die
+alten Document-Click-Listener. Alle drei untersuchten Probleme reproduzieren
+außerhalb von DartPad.
 
-Die Graphen sind pro Fehler zugeschnitten: Grafik-Kontext-Cleanup wird allein
-mit der Basis verglichen. Der Listener-Graph zählt nur alte Dispatcher und
-hält die beiden anderen Cleanups konstant. Die vollständige Matrix und die
-Renderer-Zahlen bleiben in den Rohdaten; die früheren zwei gleich verlaufenden
-Objekt-Panels wurden zu einem Dispatcher-Graphen zusammengefasst.
+Die Hauptgraphen zeigen jeweils den ursprünglichen SDK-Stand gegenüber dem
+jeweiligen Flutter-Fix allein. Das zusätzliche GC-Experiment hält CanvasKit-
+Cleanup und den experimentellen DDC-Patch konstant, um vollständige
+Dispatcher-Sammlung zu beobachten. Das ist keine Voraussetzung dafür,
+dass der Listener-Fix wirkt oder gemergt werden kann. Die genaue Zuordnung
+von Issues, PRs und Verweisen steht im [Abhängigkeits-Audit](reference-audit.md).
 
-Stand: 19.11.2026. Alle drei Probleme lassen sich außerhalb von DartPad
-reproduzieren. Die vollständige Kombination behebt die beobachteten
-Flutter-Web-Retention-Pfade. Der DDC-Fix allein hat allerdings einen
-zusätzlichen, auch in reinem Dart-Web reproduzierbaren Callback-Effekt:
-Ein alter DOM-Listener wirft nach Hot Restart einen TypeError. Deshalb ist
-der Dart-Change noch nicht als unabhängig sicherer Fix bestätigt.
+Die DDC-Kurven zeigen weiterhin einen experimentellen Patch mit bekannter
+Callback-Regression. Der getestete Stand ist [archiviert](DDC-EXPERIMENT.md)
+und kein merge-fertiger Fix.
 
 ## Welche Anwendungen sind betroffen?
 
@@ -66,7 +64,7 @@ Durchläufen. Es ist kein vollständig randomisierter Versuch.
 | Experimenteller DDC-Patch | 59,88¹ | 15 | 15 / 15 | 49,78 MiB |
 | CanvasKit + experimenteller DDC-Patch | 59,75 | 2 | 15 / 15 | 49,80 MiB |
 | Click-Listener + experimenteller DDC-Patch | 59,56¹ | 15 | 15 / 15 | 49,68 MiB |
-| Beide Flutter-PRs + experimenteller DDC-Patch | 59,86 | 2 | 0 / 0 | 0,13 MiB |
+| CanvasKit + Click-Listener + experimenteller DDC-Patch | 59,86 | 2 | 0 / 0 | 0,13 MiB |
 
 ¹ Diese Varianten werfen Fehler in alten CanvasKit-Callbacks. Ihre gute
 Taktung ist kein erfolgreicher Korrektheitsnachweis.
@@ -107,9 +105,13 @@ Die Ressourcen bilden mehrere getrennte Wurzeln:
    alten Renderer. PR 196786 registriert Renderer-Disposal beim Hot Restart
    und gibt Listener, Skia-/WebGL-Ressourcen und Context-Table-Einträge frei.
 
-Die isolierten Kombinationen zeigen, warum eine einzelne entfernte Wurzel
-für GC nicht reicht. Erst die vollständige Kombination macht in dieser
-Flutter-App alle beobachteten alten Renderer und Dispatcher unerreichbar.
+Die CanvasKit-PR und die Listener-PR beseitigen ihre jeweilige Ressource
+bereits allein. Im Listener-Einzeltest wachsen die Registrierungen minus
+Entfernungen mit dem Original von 1 auf 16; mit PR 196787 bleiben sie bei 1.
+Andere Referenzen können trotzdem den alten Dispatcher im Speicher halten.
+Erst die Kombination entfernt in dieser Flutter-App alle beobachteten
+Referenzpfade zu alten Renderern und Dispatchern. Das erklärt die GC-Zahlen,
+ist aber keine Code- oder Merge-Abhängigkeit zwischen den Flutter-PRs.
 
 Der DDC-Fix entfernt aber auch Methoden-Schlüssel, die alte Callbacks noch
 verwenden. Ohne CanvasKit-Cleanup erzeugt das in den Flutter-Versuchen
@@ -137,15 +139,13 @@ Native-Cleanup-Änderung verwandelt den bisherigen veralteten Aufruf in
 eine neue ungefangene Exception. Die zwölfteilige Metadaten-Regression
 deckt dieses Verhalten nicht ab.
 
-Die bisherige Formulierung „either change can land first“ ist deshalb
-**keine ausreichende Rollout-Aussage**. Loader und generierter DDC-SDK-
-Runtime müssen ohnehin gemeinsam ausgeliefert werden. Für Flutter darf
-die DDC-Änderung nicht ohne CanvasKit-Cleanup als sicher bestätigt werden.
-Für reines Dart-Web muss zusätzlich der Vertrag für alte JS-Interop-
-Callbacks geklärt werden; eine allgemeine Generation-Guard-Lösung wurde
-hier weder implementiert noch getestet. Das überschneidet sich mit
-[Dart issue 56127](https://github.com/dart-lang/sdk/issues/56127), ohne
-dessen breiteren Scope vollständig zu lösen.
+Die bekannte Regression betrifft den experimentellen DDC-Patch. Loader und
+generierter DDC-Runtime müssten bei einer späteren Auslieferung gemeinsam
+aktualisiert werden, weil der Loader eine neue Runtime-Funktion aufruft.
+CanvasKit-Cleanup verhindert im Experiment die spezifischen alten
+Kontextverlust-Callbacks. Der allgemeine Vertrag für alte JS-Interop-Callbacks
+bleibt aber auch in reinem Dart-Web ungelöst. Die beiden Flutter-PRs können
+unabhängig davon überprüft und gemergt werden.
 
 ## Builds und Validierung
 
@@ -208,7 +208,7 @@ Sitzungen blieben unangetastet.
 - [Desktop-Evidence als ZIP](desktop-evidence.zip): Bericht, PNG/SVG-Graphen,
   Rohdaten, Skripte und Veröffentlichungstexte; keine SDK-Binaries.
 - [Alle Graphen](charts.html), jeweils als PNG und SVG: [Taktung](flutter-cadence.png),
-  [Heap](flutter-memory.png), [Kontexte](flutter-contexts.png),
+  [Click-Listener](flutter-listeners.png), [Heap](flutter-memory.png), [Kontexte](flutter-contexts.png),
   [Objekt-Retention](flutter-retention.png), [reines Dart](plain-dart.png).
 - Rohdaten: [Flutter JSON](flutter-results.json), [Flutter CSV](flutter-samples.csv),
   [Dart JSON](plain-results.json), [Dart CSV](plain-samples.csv).
@@ -222,9 +222,9 @@ Sitzungen blieben unangetastet.
 ## Veröffentlichung
 
 Die Desktop-Daten, Graphen und Repro-Skripte sind als
-[öffentliche Evidence](https://github.com/LeonMollNetlight/flutter/blob/a48bc5dfa83a908dd1b33c931277ac67aea9f6ad/docs/research/hot-restart-2026-11-19/EVIDENCE.md)
-veröffentlicht. Dieser unveränderliche Snapshot entstand vor den Issues;
-der lokale Bericht dokumentiert zusätzlich den anschließenden Stand.
+[öffentliche Evidence](EVIDENCE.md)
+veröffentlicht. Der Evidence-Branch enthält die ursprüngliche Messmatrix und spätere
+Präzisierungen der Graphen und Texte; die früheren Snapshots bleiben erhalten.
 
 - Neues [CanvasKit-Issue 196967](https://github.com/flutter/flutter/issues/196967)
   und überarbeitete [PR 196786](https://github.com/flutter/flutter/pull/196786).
@@ -234,7 +234,8 @@ der lokale Bericht dokumentiert zusätzlich den anschließenden Stand.
   einschließlich des zusätzlich reproduzierten reinen Dart-DOM-Callback-Fehlers.
 
 Die Flutter-PRs behalten ihren Code und Draft-Status; die Texte enthalten
-die aktuellen Messungen, Graphen, Issue-Links und die DDC-Integrationsgrenzen.
+jeweils die unabhängigen Messungen, Graphen und den passenden Issue-Link.
+Die zusätzlichen GC-/DDC-Experimente stehen getrennt im Evidence-Bericht.
 [Gerrit-Commit-Nachricht](drafts/ddc-commit-message.txt) und
 [Review-Notiz](drafts/ddc-review-note.md) sind auf Wunsch vorerst nur lokal
 vorbereitet. Der Gerrit-Change wurde in diesem Durchlauf nicht verändert.
