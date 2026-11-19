@@ -1,0 +1,612 @@
+{
+  "plain": {
+    "baseline": {
+      "runs": [
+        {
+          "repetition": 1,
+          "heapWarmMiB": 27.38671112060547,
+          "heapFinalMiB": 97.25178527832031,
+          "heapGrowthAfterWarmupMiB": 69.86507415771484,
+          "heapGrowthLastFiveMiB": 24.209148406982422,
+          "symbolsFinal": 96
+        },
+        {
+          "repetition": 2,
+          "heapWarmMiB": 27.383136749267578,
+          "heapFinalMiB": 97.24451446533203,
+          "heapGrowthAfterWarmupMiB": 69.86137771606445,
+          "heapGrowthLastFiveMiB": 24.20648956298828,
+          "symbolsFinal": 96
+        },
+        {
+          "repetition": 3,
+          "heapWarmMiB": 27.384716033935547,
+          "heapFinalMiB": 97.24924087524414,
+          "heapGrowthAfterWarmupMiB": 69.8645248413086,
+          "heapGrowthLastFiveMiB": 24.209041595458984,
+          "symbolsFinal": 96
+        }
+      ],
+      "median": {
+        "heapWarmMiB": 27.384716033935547,
+        "heapFinalMiB": 97.24924087524414,
+        "heapGrowthAfterWarmupMiB": 69.8645248413086,
+        "heapGrowthLastFiveMiB": 24.209041595458984,
+        "symbolsFinal": 96
+      }
+    },
+    "fixed": {
+      "runs": [
+        {
+          "repetition": 1,
+          "heapWarmMiB": 22.552947998046875,
+          "heapFinalMiB": 30.56562042236328,
+          "heapGrowthAfterWarmupMiB": 8.012672424316406,
+          "heapGrowthLastFiveMiB": 0.001010894775390625,
+          "symbolsFinal": 6
+        },
+        {
+          "repetition": 2,
+          "heapWarmMiB": 22.553810119628906,
+          "heapFinalMiB": 30.565635681152344,
+          "heapGrowthAfterWarmupMiB": 8.011825561523438,
+          "heapGrowthLastFiveMiB": 0.000797271728515625,
+          "symbolsFinal": 6
+        },
+        {
+          "repetition": 3,
+          "heapWarmMiB": 22.553482055664062,
+          "heapFinalMiB": 30.56584930419922,
+          "heapGrowthAfterWarmupMiB": 8.012367248535156,
+          "heapGrowthLastFiveMiB": 0.000568389892578125,
+          "symbolsFinal": 6
+        }
+      ],
+      "median": {
+        "heapWarmMiB": 22.553482055664062,
+        "heapFinalMiB": 30.565635681152344,
+        "heapGrowthAfterWarmupMiB": 8.012367248535156,
+        "heapGrowthLastFiveMiB": 0.000797271728515625,
+        "symbolsFinal": 6
+      }
+    }
+  },
+  "flutter": {
+    "baseline": {
+      "runs": [
+        {
+          "repetition": 1,
+          "heapWarmMiB": 80.17398834228516,
+          "heapFinalMiB": 250.42914962768555,
+          "heapGrowthAfterWarmupMiB": 170.2551612854004,
+          "heapGrowthLastFiveMiB": 56.63847351074219,
+          "symbolsFinal": 96,
+          "activeContexts": 16,
+          "contextsCreated": 3093,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 9.313464608686777,
+          "rafP95Ms": 116.70000000000437
+        },
+        {
+          "repetition": 2,
+          "heapWarmMiB": 80.18297958374023,
+          "heapFinalMiB": 250.2341766357422,
+          "heapGrowthAfterWarmupMiB": 170.05119705200195,
+          "heapGrowthLastFiveMiB": 56.331539154052734,
+          "symbolsFinal": 96,
+          "activeContexts": 16,
+          "contextsCreated": 3344,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 9.413241292470106,
+          "rafP95Ms": 118.60000000000582
+        },
+        {
+          "repetition": 3,
+          "heapWarmMiB": 80.19206237792969,
+          "heapFinalMiB": 250.60401153564453,
+          "heapGrowthAfterWarmupMiB": 170.41194915771484,
+          "heapGrowthLastFiveMiB": 56.7702751159668,
+          "symbolsFinal": 96,
+          "activeContexts": 16,
+          "contextsCreated": 3346,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 9.917355372057166,
+          "rafP95Ms": 116.90000000000146
+        }
+      ],
+      "median": {
+        "heapWarmMiB": 80.18297958374023,
+        "heapFinalMiB": 250.42914962768555,
+        "heapGrowthAfterWarmupMiB": 170.2551612854004,
+        "heapGrowthLastFiveMiB": 56.63847351074219,
+        "symbolsFinal": 96,
+        "activeContexts": 16,
+        "contextsCreated": 3344,
+        "retiredRenderersAlive": 15,
+        "retiredDispatchersAlive": 15,
+        "clickAdded": 16,
+        "clickRemoved": 0,
+        "rafFps": 9.413241292470106,
+        "rafP95Ms": 116.90000000000146
+      }
+    },
+    "context": {
+      "runs": [
+        {
+          "repetition": 1,
+          "heapWarmMiB": 80.22119903564453,
+          "heapFinalMiB": 247.0263214111328,
+          "heapGrowthAfterWarmupMiB": 166.80512237548828,
+          "heapGrowthLastFiveMiB": 54.955833435058594,
+          "symbolsFinal": 96,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 59.784774809734586,
+          "rafP95Ms": 18.299999999995634
+        },
+        {
+          "repetition": 2,
+          "heapWarmMiB": 80.18827819824219,
+          "heapFinalMiB": 247.0627670288086,
+          "heapGrowthAfterWarmupMiB": 166.8744888305664,
+          "heapGrowthLastFiveMiB": 55.16728973388672,
+          "symbolsFinal": 96,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 59.93207698037472,
+          "rafP95Ms": 18
+        },
+        {
+          "repetition": 3,
+          "heapWarmMiB": 80.18876266479492,
+          "heapFinalMiB": 246.8206672668457,
+          "heapGrowthAfterWarmupMiB": 166.63190460205078,
+          "heapGrowthLastFiveMiB": 54.95436096191406,
+          "symbolsFinal": 96,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 59.94405221888183,
+          "rafP95Ms": 17.399999999997817
+        }
+      ],
+      "median": {
+        "heapWarmMiB": 80.18876266479492,
+        "heapFinalMiB": 247.0263214111328,
+        "heapGrowthAfterWarmupMiB": 166.80512237548828,
+        "heapGrowthLastFiveMiB": 54.955833435058594,
+        "symbolsFinal": 96,
+        "activeContexts": 2,
+        "contextsCreated": 49,
+        "retiredRenderersAlive": 15,
+        "retiredDispatchersAlive": 15,
+        "clickAdded": 16,
+        "clickRemoved": 0,
+        "rafFps": 59.93207698037472,
+        "rafP95Ms": 18
+      }
+    },
+    "listener": {
+      "runs": [
+        {
+          "repetition": 1,
+          "heapWarmMiB": 80.17607116699219,
+          "heapFinalMiB": 250.71447372436523,
+          "heapGrowthAfterWarmupMiB": 170.53840255737305,
+          "heapGrowthLastFiveMiB": 56.785789489746094,
+          "symbolsFinal": 96,
+          "activeContexts": 16,
+          "contextsCreated": 3400,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 9.945919064936213,
+          "rafP95Ms": 116.70000000000437
+        },
+        {
+          "repetition": 2,
+          "heapWarmMiB": 80.22240447998047,
+          "heapFinalMiB": 250.73484802246094,
+          "heapGrowthAfterWarmupMiB": 170.51244354248047,
+          "heapGrowthLastFiveMiB": 56.774017333984375,
+          "symbolsFinal": 96,
+          "activeContexts": 16,
+          "contextsCreated": 3405,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 9.85221674861418,
+          "rafP95Ms": 116.70000000000437
+        },
+        {
+          "repetition": 3,
+          "heapWarmMiB": 80.17834091186523,
+          "heapFinalMiB": 250.72447204589844,
+          "heapGrowthAfterWarmupMiB": 170.5461311340332,
+          "heapGrowthLastFiveMiB": 56.77427673339844,
+          "symbolsFinal": 96,
+          "activeContexts": 16,
+          "contextsCreated": 3414,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 9.731413000866743,
+          "rafP95Ms": 116.80000000000291
+        }
+      ],
+      "median": {
+        "heapWarmMiB": 80.17834091186523,
+        "heapFinalMiB": 250.72447204589844,
+        "heapGrowthAfterWarmupMiB": 170.53840255737305,
+        "heapGrowthLastFiveMiB": 56.77427673339844,
+        "symbolsFinal": 96,
+        "activeContexts": 16,
+        "contextsCreated": 3405,
+        "retiredRenderersAlive": 15,
+        "retiredDispatchersAlive": 15,
+        "clickAdded": 16,
+        "clickRemoved": 15,
+        "rafFps": 9.85221674861418,
+        "rafP95Ms": 116.70000000000437
+      }
+    },
+    "both": {
+      "runs": [
+        {
+          "repetition": 1,
+          "heapWarmMiB": 80.23115539550781,
+          "heapFinalMiB": 246.85763931274414,
+          "heapGrowthAfterWarmupMiB": 166.62648391723633,
+          "heapGrowthLastFiveMiB": 54.945335388183594,
+          "symbolsFinal": 96,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 59.66191580946467,
+          "rafP95Ms": 18.200000000000728
+        },
+        {
+          "repetition": 2,
+          "heapWarmMiB": 80.18939971923828,
+          "heapFinalMiB": 246.81731033325195,
+          "heapGrowthAfterWarmupMiB": 166.62791061401367,
+          "heapGrowthLastFiveMiB": 54.97764587402344,
+          "symbolsFinal": 96,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 59.44125223185489,
+          "rafP95Ms": 17.899999999997817
+        },
+        {
+          "repetition": 3,
+          "heapWarmMiB": 80.19052124023438,
+          "heapFinalMiB": 246.87360763549805,
+          "heapGrowthAfterWarmupMiB": 166.68308639526367,
+          "heapGrowthLastFiveMiB": 54.96341323852539,
+          "symbolsFinal": 96,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 59.47660586835856,
+          "rafP95Ms": 18.099999999998545
+        }
+      ],
+      "median": {
+        "heapWarmMiB": 80.19052124023438,
+        "heapFinalMiB": 246.85763931274414,
+        "heapGrowthAfterWarmupMiB": 166.62791061401367,
+        "heapGrowthLastFiveMiB": 54.96341323852539,
+        "symbolsFinal": 96,
+        "activeContexts": 2,
+        "contextsCreated": 49,
+        "retiredRenderersAlive": 15,
+        "retiredDispatchersAlive": 15,
+        "clickAdded": 16,
+        "clickRemoved": 15,
+        "rafFps": 59.47660586835856,
+        "rafP95Ms": 18.099999999998545
+      }
+    },
+    "ddc": {
+      "runs": [
+        {
+          "repetition": 1,
+          "heapWarmMiB": 78.97422790527344,
+          "heapFinalMiB": 234.20849990844727,
+          "heapGrowthAfterWarmupMiB": 155.23427200317383,
+          "heapGrowthLastFiveMiB": 49.793235778808594,
+          "symbolsFinal": 6,
+          "activeContexts": 15,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 59.776833156216846,
+          "rafP95Ms": 18.39999999999418
+        },
+        {
+          "repetition": 2,
+          "heapWarmMiB": 78.9838638305664,
+          "heapFinalMiB": 234.28247833251953,
+          "heapGrowthAfterWarmupMiB": 155.29861450195312,
+          "heapGrowthLastFiveMiB": 49.782432556152344,
+          "symbolsFinal": 6,
+          "activeContexts": 15,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 59.90814084974496,
+          "rafP95Ms": 17.80000000000291
+        },
+        {
+          "repetition": 3,
+          "heapWarmMiB": 78.94279479980469,
+          "heapFinalMiB": 234.15593719482422,
+          "heapGrowthAfterWarmupMiB": 155.21314239501953,
+          "heapGrowthLastFiveMiB": 49.64879608154297,
+          "symbolsFinal": 6,
+          "activeContexts": 16,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 59.884223832970974,
+          "rafP95Ms": 18.30000000000291
+        }
+      ],
+      "median": {
+        "heapWarmMiB": 78.97422790527344,
+        "heapFinalMiB": 234.20849990844727,
+        "heapGrowthAfterWarmupMiB": 155.23427200317383,
+        "heapGrowthLastFiveMiB": 49.782432556152344,
+        "symbolsFinal": 6,
+        "activeContexts": 15,
+        "contextsCreated": 49,
+        "retiredRenderersAlive": 15,
+        "retiredDispatchersAlive": 15,
+        "clickAdded": 16,
+        "clickRemoved": 0,
+        "rafFps": 59.884223832970974,
+        "rafP95Ms": 18.30000000000291
+      }
+    },
+    "context-ddc": {
+      "runs": [
+        {
+          "repetition": 1,
+          "heapWarmMiB": 78.99426651000977,
+          "heapFinalMiB": 233.2360954284668,
+          "heapGrowthAfterWarmupMiB": 154.24182891845703,
+          "heapGrowthLastFiveMiB": 49.807071685791016,
+          "symbolsFinal": 6,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 59.74508762612846,
+          "rafP95Ms": 17.69999999999709
+        },
+        {
+          "repetition": 2,
+          "heapWarmMiB": 78.97653198242188,
+          "heapFinalMiB": 233.2845115661621,
+          "heapGrowthAfterWarmupMiB": 154.30797958374023,
+          "heapGrowthLastFiveMiB": 49.802772521972656,
+          "symbolsFinal": 6,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 59.61054444485525,
+          "rafP95Ms": 17.599999999998545
+        },
+        {
+          "repetition": 3,
+          "heapWarmMiB": 79.01051330566406,
+          "heapFinalMiB": 233.14227676391602,
+          "heapGrowthAfterWarmupMiB": 154.13176345825195,
+          "heapGrowthLastFiveMiB": 49.272132873535156,
+          "symbolsFinal": 6,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 0,
+          "rafFps": 59.74508762518281,
+          "rafP95Ms": 18.099999999998545
+        }
+      ],
+      "median": {
+        "heapWarmMiB": 78.99426651000977,
+        "heapFinalMiB": 233.2360954284668,
+        "heapGrowthAfterWarmupMiB": 154.24182891845703,
+        "heapGrowthLastFiveMiB": 49.802772521972656,
+        "symbolsFinal": 6,
+        "activeContexts": 2,
+        "contextsCreated": 49,
+        "retiredRenderersAlive": 15,
+        "retiredDispatchersAlive": 15,
+        "clickAdded": 16,
+        "clickRemoved": 0,
+        "rafFps": 59.74508762518281,
+        "rafP95Ms": 17.69999999999709
+      }
+    },
+    "listener-ddc": {
+      "runs": [
+        {
+          "repetition": 1,
+          "heapWarmMiB": 78.97919845581055,
+          "heapFinalMiB": 234.0261344909668,
+          "heapGrowthAfterWarmupMiB": 155.04693603515625,
+          "heapGrowthLastFiveMiB": 49.5835075378418,
+          "symbolsFinal": 6,
+          "activeContexts": 15,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 59.88422383772096,
+          "rafP95Ms": 18.400000000001455
+        },
+        {
+          "repetition": 2,
+          "heapWarmMiB": 79.00717544555664,
+          "heapFinalMiB": 234.47859573364258,
+          "heapGrowthAfterWarmupMiB": 155.47142028808594,
+          "heapGrowthLastFiveMiB": 49.86054611206055,
+          "symbolsFinal": 6,
+          "activeContexts": 16,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 59.559261467037146,
+          "rafP95Ms": 17.69999999999709
+        },
+        {
+          "repetition": 3,
+          "heapWarmMiB": 79.00033569335938,
+          "heapFinalMiB": 234.256591796875,
+          "heapGrowthAfterWarmupMiB": 155.25625610351562,
+          "heapGrowthLastFiveMiB": 49.682884216308594,
+          "symbolsFinal": 6,
+          "activeContexts": 15,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 15,
+          "retiredDispatchersAlive": 15,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 59.53168408331882,
+          "rafP95Ms": 18.099999999998545
+        }
+      ],
+      "median": {
+        "heapWarmMiB": 79.00033569335938,
+        "heapFinalMiB": 234.256591796875,
+        "heapGrowthAfterWarmupMiB": 155.25625610351562,
+        "heapGrowthLastFiveMiB": 49.682884216308594,
+        "symbolsFinal": 6,
+        "activeContexts": 15,
+        "contextsCreated": 49,
+        "retiredRenderersAlive": 15,
+        "retiredDispatchersAlive": 15,
+        "clickAdded": 16,
+        "clickRemoved": 15,
+        "rafFps": 59.559261467037146,
+        "rafP95Ms": 18.099999999998545
+      }
+    },
+    "all": {
+      "runs": [
+        {
+          "repetition": 1,
+          "heapWarmMiB": 63.78540802001953,
+          "heapFinalMiB": 87.86063003540039,
+          "heapGrowthAfterWarmupMiB": 24.07522201538086,
+          "heapGrowthLastFiveMiB": 0.05926513671875,
+          "symbolsFinal": 6,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 0,
+          "retiredDispatchersAlive": 0,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 59.433401572618976,
+          "rafP95Ms": 17.900000000001455
+        },
+        {
+          "repetition": 2,
+          "heapWarmMiB": 63.83803939819336,
+          "heapFinalMiB": 87.86457824707031,
+          "heapGrowthAfterWarmupMiB": 24.026538848876953,
+          "heapGrowthLastFiveMiB": 0.1385345458984375,
+          "symbolsFinal": 6,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 0,
+          "retiredDispatchersAlive": 0,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 59.920106527487114,
+          "rafP95Ms": 18.5
+        },
+        {
+          "repetition": 3,
+          "heapWarmMiB": 63.86092758178711,
+          "heapFinalMiB": 87.87998580932617,
+          "heapGrowthAfterWarmupMiB": 24.019058227539062,
+          "heapGrowthLastFiveMiB": 0.1312103271484375,
+          "symbolsFinal": 6,
+          "activeContexts": 2,
+          "contextsCreated": 49,
+          "retiredRenderersAlive": 0,
+          "retiredDispatchersAlive": 0,
+          "clickAdded": 16,
+          "clickRemoved": 15,
+          "rafFps": 59.86032590432023,
+          "rafP95Ms": 18.400000000001455
+        }
+      ],
+      "median": {
+        "heapWarmMiB": 63.83803939819336,
+        "heapFinalMiB": 87.86457824707031,
+        "heapGrowthAfterWarmupMiB": 24.026538848876953,
+        "heapGrowthLastFiveMiB": 0.1312103271484375,
+        "symbolsFinal": 6,
+        "activeContexts": 2,
+        "contextsCreated": 49,
+        "retiredRenderersAlive": 0,
+        "retiredDispatchersAlive": 0,
+        "clickAdded": 16,
+        "clickRemoved": 15,
+        "rafFps": 59.86032590432023,
+        "rafP95Ms": 18.400000000001455
+      }
+    }
+  }
+}

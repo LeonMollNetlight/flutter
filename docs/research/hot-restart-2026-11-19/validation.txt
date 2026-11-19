@@ -1,0 +1,25 @@
+Desktop validation, 19 November 2026
+
+Engine regression assertions fail on base, pass with CanvasKit/listener fixes.
+chrome-dart2js-canvaskit engine: 39 passed
+chrome-dart2js-canvaskit canvaskit: 33 passed
+chrome-dart2js-canvaskit ui: 4 passed, 2 existing tests skipped
+chrome-full-dart2js-canvaskit canvaskit: 33 passed
+chrome-full-dart2js-canvaskit ui: 4 passed, 2 existing tests skipped
+Total: 113 passed, 4 skipped. These are targeted suites, not all upstream tests.
+
+Changed engine files and added tests: Dart analysis reports no issues.
+JavaScript syntax and git diff --check: pass.
+DDC manual Chrome regression: pass, 12 restarts, both APIs, static reset,
+cross-frame disposal, unrelated properties, legacy reset, detached-frame GC.
+Original loader regression: fail, native-symbol assertion 12 !== 6.
+
+Additional compiled plain-Dart stale-DOM-callback test: confirms a new
+TypeError after native cleanup. DDC-only Flutter runs also throw from retired
+CanvasKit callbacks. This is an unresolved integration/callback-contract issue.
+
+Release controls: before/after dart2js and dart2wasm app bytes identical.
+113 successful engine tests do not cover the DDC stale-callback regression.
+
+Detailed local build/test logs retained in .dart_tool/hot-restart-analysis.
+Compiler/VM and CanvasKit Wasm were prebuilt; changed SDK Dart libraries rebuilt.

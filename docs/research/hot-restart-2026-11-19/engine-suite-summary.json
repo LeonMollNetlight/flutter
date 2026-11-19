@@ -1,0 +1,27 @@
+[
+  {
+    "suite": "chrome-dart2js-canvaskit-engine",
+    "passed": 39,
+    "skipped": 0
+  },
+  {
+    "suite": "chrome-dart2js-canvaskit-canvaskit",
+    "passed": 33,
+    "skipped": 0
+  },
+  {
+    "suite": "chrome-dart2js-canvaskit-ui",
+    "passed": 4,
+    "skipped": 2
+  },
+  {
+    "suite": "chrome-full-dart2js-canvaskit-canvaskit",
+    "passed": 33,
+    "skipped": 0
+  },
+  {
+    "suite": "chrome-full-dart2js-canvaskit-ui",
+    "passed": 4,
+    "skipped": 2
+  }
+]

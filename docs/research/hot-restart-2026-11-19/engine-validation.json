@@ -1,0 +1,46 @@
+[
+  {
+    "label": "engine-red",
+    "exitCode": 1,
+    "log": "/Users/leonmoll/prj/dartpad2/dart-pad/.dart_tool/hot-restart-analysis/engine-red.log",
+    "command": [
+      "engine/src/flutter/lib/web_ui/dev/felt",
+      "test",
+      "--compile",
+      "--copy-artifacts",
+      "--run",
+      "--browser",
+      "chrome",
+      "--compiler",
+      "dart2js",
+      "--renderer",
+      "canvaskit",
+      "test/canvaskit/surface_hot_restart_test.dart",
+      "test/engine/platform_dispatcher/platform_dispatcher_test.dart"
+    ]
+  },
+  {
+    "label": "engine-green",
+    "exitCode": 0,
+    "log": "/Users/leonmoll/prj/dartpad2/dart-pad/.dart_tool/hot-restart-analysis/engine-green.log",
+    "command": [
+      "engine/src/flutter/lib/web_ui/dev/felt",
+      "test",
+      "--compile",
+      "--copy-artifacts",
+      "--run",
+      "--browser",
+      "chrome",
+      "--compiler",
+      "dart2js",
+      "--renderer",
+      "canvaskit",
+      "test/canvaskit/surface_hot_restart_test.dart",
+      "test/canvaskit/surface_test.dart",
+      "test/ui/surface_context_lost_test.dart",
+      "test/canvaskit/renderer_test.dart",
+      "test/canvaskit/rasterizer_test.dart",
+      "test/engine/platform_dispatcher/platform_dispatcher_test.dart"
+    ]
+  }
+]

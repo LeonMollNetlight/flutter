@@ -1,0 +1,32 @@
+{
+  "flutterBase": "22e676c57e1e6d04c2289a47368ea4093bbc3c18",
+  "contextPR": "3e25df705b11935d0a4a5750e6b8bc26460877b1",
+  "listenerPR": "b8bbc80b12474d54da242a2e150c6fd6d8dbde9c",
+  "dartSource": "cca4921c970dd56bece3f0ecadf6825e9fc2f090",
+  "compilerVersion": "3.15.0-edge.e1671c00019972a92e16247dc254ad3eaa48c2b6",
+  "files": {
+    "both/compiled/dart_sdk.js": "d1e7159016281bfdb889786fc8d782c2e7d4aede87d49a0f15b5a743007ab64e",
+    "both/compiled/dart_sdk_fixed.js": "2ea3ada3520ea83190e96404036a797cc4c315b40b03bd83d76a73572583eb1c",
+    "listener/compiled/dart_sdk.js": "b37b94eebd28d871578b5d1ea5d289448b52764053d532bb98c2739773424607",
+    "listener/compiled/dart_sdk_fixed.js": "69fd9452f39539f100a59ecba514d42e171828c896e29efc423e7c47a4c76f8c",
+    "context/compiled/dart_sdk.js": "d5ad0040fcef663fb2d5636a17378b2a3416457d62b3ffab56d7d4aefef4348c",
+    "context/compiled/dart_sdk_fixed.js": "8fdc128eab351fa854cc3cf0798a668bd67e3fa8eeb8ffea38cfe478bb1cff47",
+    "baseline/compiled/dart_sdk.js": "6b438f83db3a46e87581b3fa871cab36a96fd979676d1c5f020edf9b0f9f1cfb",
+    "baseline/compiled/dart_sdk_fixed.js": "999bbef6b0563e3b588b238fffd33c6c68f25d103a7c4a41993aac2f243db25b",
+    "plain/baseline/dart_sdk.js": "43a956ff9758a16568bfe59b7aafe232f0772c7f6a8ffdf9bdfc432cfed230da",
+    "plain/baseline/loader.js": "29285e4108230f1e7f3d11655461a544fe9e01a70a5b65efa7dfb0dc70919715",
+    "plain/fixed/dart_sdk.js": "eb68fc05bf10d360875ce691528294ca2a155620e077abb1dff7e0714fe93690",
+    "plain/fixed/loader.js": "2fe73547dc5b5dc90fc0fcfd50e382051dc9d4721e0d180a7000ca01e73b8d48",
+    "flutter/bin/cache/flutter_web_sdk/canvaskit/canvaskit.js.symbols": "4b17866c77a156c3c73efabe55d88f12a5a1695737d6cfb49e6d78c5b7074f28",
+    "flutter/bin/cache/flutter_web_sdk/canvaskit/canvaskit.js": "56a1d5afd658987b7a592d50115184c0f96c4b9de40ba9a9ce919554ae629fce",
+    "flutter/bin/cache/flutter_web_sdk/canvaskit/canvaskit.wasm": "a2f4fa2b5b8b2badeab48dc5eb440376aac263e45dba61a7ea23e05df5a78d2c",
+    "flutter/bin/cache/flutter_web_sdk/canvaskit/webparagraph/canvaskit.js.symbols": "eea247347eaf8a4344b4c326eea274ac387504d4bbca80dab76540e2771a99bb",
+    "flutter/bin/cache/flutter_web_sdk/canvaskit/webparagraph/canvaskit.js": "8c80b58c72be7febdc94cbe1779f3f8874cc7ae1e8c21cca07a2da85413f8f7a",
+    "flutter/bin/cache/flutter_web_sdk/canvaskit/webparagraph/canvaskit.wasm": "722db9e2845e426e5eafb24ded49422d14f454f012c9c2fb61aa1dfe60ab1b56",
+    "flutter/bin/cache/flutter_web_sdk/canvaskit/chromium/canvaskit.js.symbols": "ddc88c13fe34fe0d544d5740ee380db08990e344a55822f82481952e68c41a78",
+    "flutter/bin/cache/flutter_web_sdk/canvaskit/chromium/canvaskit.js": "8a1ee1ecec6fd9b3232258b8e85f3f03ced1dd6fd253be4f4884bb8d06bab435",
+    "flutter/bin/cache/flutter_web_sdk/canvaskit/chromium/canvaskit.wasm": "aab17877af2c50a008693c25bec53bd8b6efed436535373a3cc0aa4e487f8322"
+  },
+  "dartRuntimeBaseMatchesArchive": true,
+  "baselineLoaderMatchesArchive": true
+}

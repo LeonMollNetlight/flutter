@@ -1,0 +1,24 @@
+{
+  "measuredAt": "2026-11-19",
+  "machine": "Apple M4 Pro",
+  "macOS": "ProductName:\t\tmacOS\nProductVersion:\t\t27.2\nBuildVersion:\t\t26B123\n",
+  "node": "v22.23.4",
+  "chromeFlags": [
+    "--disable-background-timer-throttling",
+    "--disable-renderer-backgrounding",
+    "--disable-backgrounding-occluded-windows"
+  ],
+  "isolation": "Separate Chrome user-data-dir and owned test tabs",
+  "forcedGC": "HeapProfiler.collectGarbage before every memory sample",
+  "viewport": "1200 x 1279 CSS pixels, devicePixelRatio 2 (recorded per run)",
+  "workload": "DDC debug, CanvasKit, 300 animated circles, normal flutter run -d web-server and machine app.restart",
+  "publication": "First desktop run; no mobile measurements yet",
+  "chromeVersion": "157.0.8103.80",
+  "compilerBinaries": "Prebuilt; affected DDC/Flutter web libraries freshly source-compiled",
+  "matrix": {
+    "conditions": 8,
+    "repetitions": 3,
+    "samples": 384,
+    "order": "baseline first, remaining combinations forward/reverse/forward"
+  }
+}

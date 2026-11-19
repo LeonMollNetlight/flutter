@@ -1,0 +1,33 @@
+{
+  "meaning": "Byte-identical output for this fixture; not a general release performance measurement",
+  "rows": [
+    {
+      "backend": "js",
+      "condition": "baseline",
+      "bytes": 46708,
+      "sha256": "4b31ff5f26637ebd2f58240840007137f22ec8ce0c801674c4c67147ceda019f"
+    },
+    {
+      "backend": "js",
+      "condition": "fixed",
+      "bytes": 46708,
+      "sha256": "4b31ff5f26637ebd2f58240840007137f22ec8ce0c801674c4c67147ceda019f"
+    },
+    {
+      "backend": "wasm",
+      "condition": "baseline",
+      "bytes": 14297,
+      "sha256": "99305769405c764c30ce0cb3d71bb0e802d179a86df8bb16a101b0e9dda56b53"
+    },
+    {
+      "backend": "wasm",
+      "condition": "fixed",
+      "bytes": 14297,
+      "sha256": "99305769405c764c30ce0cb3d71bb0e802d179a86df8bb16a101b0e9dda56b53"
+    }
+  ],
+  "identical": {
+    "js": true,
+    "wasm": true
+  }
+}

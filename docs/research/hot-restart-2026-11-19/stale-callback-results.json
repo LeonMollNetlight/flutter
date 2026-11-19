@@ -1,0 +1,38 @@
+{
+  "meaning": "A Dart-installed DOM callback intentionally survives hot restart; compare behavior of old and new callbacks",
+  "rows": [
+    {
+      "condition": "baseline",
+      "before": {
+        "numbers": [
+          42
+        ],
+        "errors": []
+      },
+      "after": {
+        "numbers": [
+          42,
+          42
+        ],
+        "errors": []
+      }
+    },
+    {
+      "condition": "fixed",
+      "before": {
+        "numbers": [
+          42
+        ],
+        "errors": []
+      },
+      "after": {
+        "numbers": [
+          42
+        ],
+        "errors": [
+          "Uncaught TypeError: value[$toDouble] is not a function"
+        ]
+      }
+    }
+  ]
+}
