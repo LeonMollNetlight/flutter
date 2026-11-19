@@ -36,13 +36,24 @@ Values are medians. *DDC without CanvasKit cleanup raises 16–17 unhandled
 errors per run in stale context-loss callbacks. Those cadence results do
 not demonstrate a correct fix.*
 
-![Main-thread cadence](flutter-cadence.png)
+The context-cleanup graphs compare the unmodified baseline with WebGL context
+cleanup alone. The dispatcher/heap graphs isolate the document click listener:
+WebGL context cleanup and the experimental DDC native-metadata cleanup are held
+constant in both conditions. The two Flutter issues track separate cleanup
+defects; the latter experiment removes other retention roots so dispatcher
+collection can be observed.
+
+![Main-thread cadence: context cleanup only](flutter-cadence.png)
 
 ![Heap with graphics cleanup held constant](flutter-memory.png)
 
 ![Active and cumulatively created WebGL contexts](flutter-contexts.png)
 
-![Retired renderer and dispatcher retention](flutter-retention.png)
+![Retired dispatchers with the document click listener retained or removed](flutter-retention.png)
+
+The previous dispatcher/renderer panels had identical counts in this fixture.
+The listener graph now shows only the dispatcher count relevant to that issue.
+The original renderer counts and all eight combinations remain in the raw data.
 
 The baseline creates a median 3,344 contexts cumulatively; CanvasKit cleanup
 reduces that to 49, including initial capability probes and new generations.

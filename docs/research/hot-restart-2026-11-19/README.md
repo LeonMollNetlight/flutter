@@ -6,6 +6,12 @@ eine bekannte Callback-Regression. Die Graphen kennzeichnen ihn entsprechend;
 sein Quellpatch bleibt [archiviert](DDC-EXPERIMENT.md). Ein wiederhergestellter
 Gerrit-WIP-Change wäre eine Diskussionsgrundlage, keine Merge-Empfehlung.
 
+Die Graphen sind pro Fehler zugeschnitten: Grafik-Kontext-Cleanup wird allein
+mit der Basis verglichen. Der Listener-Graph zählt nur alte Dispatcher und
+hält die beiden anderen Cleanups konstant. Die vollständige Matrix und die
+Renderer-Zahlen bleiben in den Rohdaten; die früheren zwei gleich verlaufenden
+Objekt-Panels wurden zu einem Dispatcher-Graphen zusammengefasst.
+
 Stand: 19.11.2026. Alle drei Probleme lassen sich außerhalb von DartPad
 reproduzieren. Die vollständige Kombination behebt die beobachteten
 Flutter-Web-Retention-Pfade. Der DDC-Fix allein hat allerdings einen
@@ -216,7 +222,7 @@ Sitzungen blieben unangetastet.
 ## Veröffentlichung
 
 Die Desktop-Daten, Graphen und Repro-Skripte sind als
-[öffentliche Evidence](https://github.com/LeonMollNetlight/flutter/blob/1992af0035c506ae44aa99faa5fcfe03a4f3d87f/docs/research/hot-restart-2026-11-19/EVIDENCE.md)
+[öffentliche Evidence](https://github.com/LeonMollNetlight/flutter/blob/a48bc5dfa83a908dd1b33c931277ac67aea9f6ad/docs/research/hot-restart-2026-11-19/EVIDENCE.md)
 veröffentlicht. Dieser unveränderliche Snapshot entstand vor den Issues;
 der lokale Bericht dokumentiert zusätzlich den anschließenden Stand.
 

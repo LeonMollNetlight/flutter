@@ -11,11 +11,13 @@ import matplotlib.pyplot as plt
 ROOT = Path(__file__).resolve().parent
 MIB = 1024 * 1024
 LABELS = {
-    'baseline': 'Before fixes', 'context': 'CanvasKit only',
-    'listener': 'Listener only', 'both': 'CanvasKit + listener',
-    'ddc': 'Experimental DDC (callback errors)', 'context-ddc': 'CanvasKit + experimental DDC',
-    'listener-ddc': 'Listener + experimental DDC',
-    'all': 'Both Flutter PRs + experimental DDC', 'fixed': 'Experimental DDC cleanup',
+    'baseline': 'No cleanup patches', 'context': 'WebGL context cleanup',
+    'listener': 'Document click-listener cleanup', 'both': 'Context + click-listener cleanup',
+    'ddc': 'Experimental native-metadata cleanup (callback errors)',
+    'context-ddc': 'Context + experimental native-metadata cleanup',
+    'listener-ddc': 'Click-listener + experimental native-metadata cleanup',
+    'all': 'Context + click-listener + experimental native-metadata cleanup',
+    'fixed': 'Experimental native-metadata cleanup',
 }
 COLORS = {'baseline': '#c24b40', 'context': '#1f77b4', 'listener': '#a36ea6',
           'both': '#ba890b', 'ddc': '#777777', 'context-ddc': '#7250a2',
@@ -41,7 +43,8 @@ def series(rows, condition, metric, subtract=False):
                       for function in [statistics.median, min, max]]
 
 
-def chart(rows, metrics, conditions, title, filename, labels, subtract=False):
+def chart(rows, metrics, conditions, title, filename, labels, subtract=False,
+          legend_labels=None, held_constant=None):
     fig, axes = plt.subplots(1, len(metrics), figsize=(7.8 * len(metrics), 4.5), squeeze=False)
     for axis, metric, ylabel in zip(axes[0], metrics, labels):
         for condition in conditions:
@@ -51,7 +54,8 @@ def chart(rows, metrics, conditions, title, filename, labels, subtract=False):
             if subtract:
                 valid = [i for i, index in enumerate(x) if index >= 2]
                 x, median, low, high = [[values[i] for i in valid] for values in [x, median, low, high]]
-            axis.plot(x, median, color=COLORS[condition], label=LABELS[condition], marker='.', lw=1.8)
+            legend = (legend_labels or LABELS)[condition]
+            axis.plot(x, median, color=COLORS[condition], label=legend, marker='.', lw=1.8)
             axis.fill_between(x, low, high, color=COLORS[condition], alpha=.12)
         axis.set(xlabel='Hot restarts', ylabel=ylabel, xticks=range(0, 16, 3))
         axis.grid(axis='y', alpha=.2)
@@ -68,8 +72,10 @@ def chart(rows, metrics, conditions, title, filename, labels, subtract=False):
                        for condition in conditions)
     if experimental:
         note += '\nExperimental DDC = CL 578301/3; known stale-callback regression, not merge-ready'
+    if held_constant:
+        note += '\nHeld constant: ' + held_constant
     fig.text(.5, .015, note, ha='center', fontsize=8, color='#555555')
-    fig.tight_layout(rect=(0, .18 if 'ddc' in conditions else .14 if experimental else .09, 1, .94))
+    fig.tight_layout(rect=(0, .18 if 'ddc' in conditions or held_constant else .14 if experimental else .09, 1, .94))
     for extension in ['png', 'svg']:
         fig.savefig(ROOT / f'{filename}.{extension}', dpi=240)
     plt.close(fig)
@@ -117,18 +123,26 @@ def main():
     chart(plain, ['usedSize', 'symbols'], ['baseline', 'fixed'],
           'Plain Dart web: DDC runtime retention across hot restarts', 'plain-dart',
           ['Post-GC JavaScript heap (MiB)', 'Symbols on native Function constructor'])
-    chart(flutter, ['rafFps'], ['baseline', 'context', 'ddc', 'all'],
-          'Normal Flutter web: CanvasKit cleanup prevents cadence collapse', 'flutter-cadence',
-          ['requestAnimationFrame calls / second'])
-    chart(flutter, ['activeContexts', 'contextsCreated'], ['baseline', 'context', 'all'],
+    context_labels = {'baseline': 'Before WebGL context cleanup',
+                      'context': 'With WebGL context cleanup'}
+    listener_labels = {'context-ddc': 'Document click listener retained',
+                       'all': 'Document click listener removed'}
+    constant = 'WebGL context cleanup + experimental DDC native-metadata cleanup'
+    chart(flutter, ['rafFps'], ['baseline', 'context'],
+          'Flutter web: WebGL context cleanup prevents cadence collapse', 'flutter-cadence',
+          ['requestAnimationFrame calls / second'], legend_labels=context_labels)
+    chart(flutter, ['activeContexts', 'contextsCreated'], ['baseline', 'context'],
           'Normal Flutter web: retained contexts trigger repeated context creation', 'flutter-contexts',
-          ['Active tracked WebGL contexts', 'Cumulative WebGL contexts created'])
-    chart(flutter, ['usedSize'], ['context', 'both', 'context-ddc', 'all'],
-          'Normal Flutter web: memory retention with CanvasKit cleanup held constant', 'flutter-memory',
-          ['Post-GC JavaScript heap growth after restart 2 (MiB)'], subtract=True)
-    chart(flutter, ['retiredDispatchersAlive', 'retiredRenderersAlive'], ['context', 'both', 'context-ddc', 'all'],
-          'Normal Flutter web: retired engine objects remain reachable through separate roots', 'flutter-retention',
-          ['Live retired dispatchers after GC', 'Live retired CanvasKit renderers after GC'])
+          ['Active tracked WebGL contexts', 'Cumulative WebGL contexts created'],
+          legend_labels=context_labels)
+    chart(flutter, ['usedSize'], ['context-ddc', 'all'],
+          'Flutter web: heap retention with the document click listener removed', 'flutter-memory',
+          ['Post-GC JavaScript heap growth after restart 2 (MiB)'], subtract=True,
+          legend_labels=listener_labels, held_constant=constant)
+    chart(flutter, ['retiredDispatchersAlive'], ['context-ddc', 'all'],
+          'Flutter web: old dispatchers retained by the document click listener', 'flutter-retention',
+          ['Retired dispatchers still reachable after GC'], legend_labels=listener_labels,
+          held_constant=constant)
     pictures = [('flutter-cadence', 'Normal Flutter web: Taktung'),
                 ('flutter-memory', 'Normal Flutter web: JavaScript-Heap'),
                 ('flutter-contexts', 'WebGL-Kontexte'), ('plain-dart', 'Reines Dart-Web mit DDC')]
