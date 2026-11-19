@@ -1,5 +1,12 @@
 # Desktop reproduction: hot restart outside DartPad
 
+**Experimental DDC results:** curves previously called “DDC fix” or “All three
+fixes” use the tested CL 578301/3 implementation. It has a reproduced stale-
+callback regression and is **not merge-ready**. These curves document a
+diagnostic experiment, not an available or recommended fix. The tested source
+is preserved in [DDC-EXPERIMENT.md](DDC-EXPERIMENT.md) and
+[ddc-experiment.patch](ddc-experiment.patch). The measured data remain unchanged.
+
 19 November 2026. These runs use ordinary Flutter web and a compiled plain-Dart
 web application. DartPad is absent from both reproductions.
 
@@ -14,16 +21,16 @@ The [fixture](flutter_main.dart) animates 300 circles and holds a 4 MiB payload.
 15 restarts in the same page. CanvasKit and its Wasm instance are reused.
 Eight combinations, three fresh-page runs each, 384 samples in total.
 
-| Fixes | rAF calls/s at restart 15 | Active tracked GL contexts | Retired renderer / dispatcher survivors after GC | Heap growth, restarts 10–15 |
+| Applied changes | rAF calls/s at restart 15 | Active tracked GL contexts | Retired renderer / dispatcher survivors after GC | Heap growth, restarts 10–15 |
 | --- | ---: | ---: | ---: | ---: |
 | None | 9.41 | 16 | 15 / 15 | 56.64 MiB |
 | CanvasKit | 59.93 | 2 | 15 / 15 | 54.96 MiB |
 | Click listener | 9.85 | 16 | 15 / 15 | 56.77 MiB |
 | CanvasKit + listener | 59.48 | 2 | 15 / 15 | 54.96 MiB |
-| DDC | 59.88* | 15 | 15 / 15 | 49.78 MiB |
-| CanvasKit + DDC | 59.75 | 2 | 15 / 15 | 49.80 MiB |
-| Listener + DDC | 59.56* | 15 | 15 / 15 | 49.68 MiB |
-| All three | 59.86 | 2 | 0 / 0 | 0.13 MiB |
+| Experimental DDC | 59.88* | 15 | 15 / 15 | 49.78 MiB |
+| CanvasKit + experimental DDC | 59.75 | 2 | 15 / 15 | 49.80 MiB |
+| Listener + experimental DDC | 59.56* | 15 | 15 / 15 | 49.68 MiB |
+| Both Flutter PRs + experimental DDC | 59.86 | 2 | 0 / 0 | 0.13 MiB |
 
 Values are medians. *DDC without CanvasKit cleanup raises 16–17 unhandled
 errors per run in stale context-loss callbacks. Those cadence results do
@@ -76,7 +83,8 @@ In Flutter the corresponding error is
 `_engine.webGLVersion[$toDouble] is not a function` from retired CanvasKit
 callbacks. PR 196786 removes those listeners. The all-three Flutter runs are
 error-free, but do not resolve the general plain-Dart callback contract.
-Loader and compiled DDC runtime must ship together. CL 578301 should not be
+If this approach is shipped, the patched loader and rebuilt DDC runtime must
+be delivered together. CL 578301 should not be
 presented as independently safe based on these measurements.
 
 ## Validation and limits

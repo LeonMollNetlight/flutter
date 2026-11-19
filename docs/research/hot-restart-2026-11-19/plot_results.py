@@ -13,8 +13,9 @@ MIB = 1024 * 1024
 LABELS = {
     'baseline': 'Before fixes', 'context': 'CanvasKit only',
     'listener': 'Listener only', 'both': 'CanvasKit + listener',
-    'ddc': 'DDC only (callback errors)', 'context-ddc': 'CanvasKit + DDC',
-    'listener-ddc': 'Listener + DDC', 'all': 'All three fixes', 'fixed': 'DDC fix',
+    'ddc': 'Experimental DDC (callback errors)', 'context-ddc': 'CanvasKit + experimental DDC',
+    'listener-ddc': 'Listener + experimental DDC',
+    'all': 'Both Flutter PRs + experimental DDC', 'fixed': 'Experimental DDC cleanup',
 }
 COLORS = {'baseline': '#c24b40', 'context': '#1f77b4', 'listener': '#a36ea6',
           'both': '#ba890b', 'ddc': '#777777', 'context-ddc': '#7250a2',
@@ -63,8 +64,12 @@ def chart(rows, metrics, conditions, title, filename, labels, subtract=False):
             note += '\nDDC-only runs throw from retired callbacks despite their steady cadence'
     elif any(metric.endswith('Size') for metric in metrics):
         note += '\nForced GC before each sample; JS heap excludes workers and GPU memory'
+    experimental = any(condition in {'ddc', 'context-ddc', 'listener-ddc', 'all', 'fixed'}
+                       for condition in conditions)
+    if experimental:
+        note += '\nExperimental DDC = CL 578301/3; known stale-callback regression, not merge-ready'
     fig.text(.5, .015, note, ha='center', fontsize=8, color='#555555')
-    fig.tight_layout(rect=(0, .13 if 'ddc' in conditions else .09, 1, .94))
+    fig.tight_layout(rect=(0, .18 if 'ddc' in conditions else .14 if experimental else .09, 1, .94))
     for extension in ['png', 'svg']:
         fig.savefig(ROOT / f'{filename}.{extension}', dpi=240)
     plt.close(fig)
@@ -135,6 +140,8 @@ def main():
     section {{margin-bottom:18px}} details {{margin-top:12px}}
     </style><p>Desktop-Messung vom 19.11.2026 · Apple M4 Pro · Chrome 157 · drei Durchläufe pro Variante.
     Die rAF-Kurve zeigt die Taktung des Hauptthreads. Heap-Werte wurden nach erzwungener GC gemessen.</p>
+    <p>DDC-Kurven zeigen einen experimentellen Patch mit bekannter Callback-Regression,
+    keinen merge-fertigen Fix. Der getestete Patch und die Rohdaten bleiben archiviert.</p>
     {sections}'''
     (ROOT / 'charts.html').write_text(html)
 

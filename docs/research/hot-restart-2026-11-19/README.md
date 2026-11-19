@@ -1,5 +1,11 @@
 # Hot-Restart-Fixes außerhalb von DartPad: Desktop-Ergebnis
 
+**Status der DDC-Kurven:** Die Messungen mit dem Dart-Patch sind experimentelle
+Ergebnisse, kein verfügbarer oder merge-fertiger Fix. Der getestete Stand hat
+eine bekannte Callback-Regression. Die Graphen kennzeichnen ihn entsprechend;
+sein Quellpatch bleibt [archiviert](DDC-EXPERIMENT.md). Ein wiederhergestellter
+Gerrit-WIP-Change wäre eine Diskussionsgrundlage, keine Merge-Empfehlung.
+
 Stand: 19.11.2026. Alle drei Probleme lassen sich außerhalb von DartPad
 reproduzieren. Die vollständige Kombination behebt die beobachteten
 Flutter-Web-Retention-Pfade. Der DDC-Fix allein hat allerdings einen
@@ -25,6 +31,12 @@ automatisch jede Webdev-Konfiguration oder einen JavaScript-/Wasm-Release.
 Die Standard-Builder-Optionen und Aufrufpfade stehen im
 [Quellenbericht](source-analysis.md).
 
+Die bestätigten Akkumulationen und Messungen betreffen Hot Restart.
+Die nachträgliche [Abgrenzung zu zustandserhaltendem Hot Reload](reload-scope.md)
+steht auch in allen drei öffentlichen Issues. Die CanvasKit-PR verbessert
+zusätzlich allgemeine Surface-Freigabe und Canvas-Ersetzung; daraus folgt
+kein gemessener Hot-Reload-Performance-Befund.
+
 ## Neue Messungen
 
 Apple M4 Pro, macOS 27.2, Chrome **157.0.8103.80**. Normales
@@ -45,10 +57,10 @@ Durchläufen. Es ist kein vollständig randomisierter Versuch.
 | Nur CanvasKit | 59,93 | 2 | 15 / 15 | 54,96 MiB |
 | Nur Click-Listener | 9,85 | 16 | 15 / 15 | 56,77 MiB |
 | CanvasKit + Click-Listener | 59,48 | 2 | 15 / 15 | 54,96 MiB |
-| Nur DDC | 59,88¹ | 15 | 15 / 15 | 49,78 MiB |
-| CanvasKit + DDC | 59,75 | 2 | 15 / 15 | 49,80 MiB |
-| Click-Listener + DDC | 59,56¹ | 15 | 15 / 15 | 49,68 MiB |
-| Alle drei | 59,86 | 2 | 0 / 0 | 0,13 MiB |
+| Experimenteller DDC-Patch | 59,88¹ | 15 | 15 / 15 | 49,78 MiB |
+| CanvasKit + experimenteller DDC-Patch | 59,75 | 2 | 15 / 15 | 49,80 MiB |
+| Click-Listener + experimenteller DDC-Patch | 59,56¹ | 15 | 15 / 15 | 49,68 MiB |
+| Beide Flutter-PRs + experimenteller DDC-Patch | 59,86 | 2 | 0 / 0 | 0,13 MiB |
 
 ¹ Diese Varianten werfen Fehler in alten CanvasKit-Callbacks. Ihre gute
 Taktung ist kein erfolgreicher Korrektheitsnachweis.
@@ -187,6 +199,8 @@ Sitzungen blieben unangetastet.
 
 ## Dateien und erneuter Lauf
 
+- [Desktop-Evidence als ZIP](desktop-evidence.zip): Bericht, PNG/SVG-Graphen,
+  Rohdaten, Skripte und Veröffentlichungstexte; keine SDK-Binaries.
 - [Alle Graphen](charts.html), jeweils als PNG und SVG: [Taktung](flutter-cadence.png),
   [Heap](flutter-memory.png), [Kontexte](flutter-contexts.png),
   [Objekt-Retention](flutter-retention.png), [reines Dart](plain-dart.png).
@@ -196,8 +210,29 @@ Sitzungen blieben unangetastet.
   [Engine-Tests](engine-validation.json), [Suite-Zahlen](engine-suite-summary.json),
   [DOM-Callback-Test](stale-callback-results.json).
 - [Issue-/PR-Veröffentlichungsplan](drafts/publication-plan.md) und die
-  einzelnen sachlichen Entwürfe im selben Verzeichnis. Sie wurden nicht
-  veröffentlicht und enthalten noch keine öffentlichen Evidence-/Issue-URLs.
+  einzelnen sachlichen Texte im selben Verzeichnis. Die veröffentlichten
+  GitHub-Texte heißen `published-issue-*.md` und `published-pr-*.md`.
+
+## Veröffentlichung
+
+Die Desktop-Daten, Graphen und Repro-Skripte sind als
+[öffentliche Evidence](https://github.com/LeonMollNetlight/flutter/blob/1992af0035c506ae44aa99faa5fcfe03a4f3d87f/docs/research/hot-restart-2026-11-19/EVIDENCE.md)
+veröffentlicht. Dieser unveränderliche Snapshot entstand vor den Issues;
+der lokale Bericht dokumentiert zusätzlich den anschließenden Stand.
+
+- Neues [CanvasKit-Issue 196967](https://github.com/flutter/flutter/issues/196967)
+  und überarbeitete [PR 196786](https://github.com/flutter/flutter/pull/196786).
+- Neues [Dispatcher-Issue 196968](https://github.com/flutter/flutter/issues/196968)
+  und überarbeitete [PR 196787](https://github.com/flutter/flutter/pull/196787).
+- Neues [DDC-Issue 64979](https://github.com/dart-lang/sdk/issues/64979),
+  einschließlich des zusätzlich reproduzierten reinen Dart-DOM-Callback-Fehlers.
+
+Die Flutter-PRs behalten ihren Code und Draft-Status; die Texte enthalten
+die aktuellen Messungen, Graphen, Issue-Links und die DDC-Integrationsgrenzen.
+[Gerrit-Commit-Nachricht](drafts/ddc-commit-message.txt) und
+[Review-Notiz](drafts/ddc-review-note.md) sind auf Wunsch vorerst nur lokal
+vorbereitet. Der Gerrit-Change wurde in diesem Durchlauf nicht verändert.
+Die genauen Veröffentlichungs-URLs stehen in [publication.json](publication.json).
 
 Große SDK-/Compiler-Artefakte stehen lokal unter
 `.dart_tool/hot-restart-analysis`; die eigenen bestehenden SDK-Checkouts
